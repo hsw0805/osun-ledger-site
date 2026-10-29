@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>오순 가계부 — 오순도순 함께 쓰는 가계부</title>
+<meta name="description" content="같이 적으면 여윳돈이 보여요. 가족이 한 장부를 함께 쓰는 가계부, 오순 가계부.">
+<meta property="og:title" content="오순 가계부 — 오순도순 함께 쓰는 가계부">
+<meta property="og:description" content="같이 적으면 여윳돈이 보여요. 가족이 한 장부를 함께 쓰는 가계부.">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Ccircle cx='512' cy='512' r='452' fill='%23F2B85A' stroke='%23C97E1E' stroke-width='72'/%3E%3Ccircle cx='362' cy='440' r='78' fill='%234A2E0E'/%3E%3Ccircle cx='662' cy='440' r='78' fill='%234A2E0E'/%3E%3Cpath d='M 330 620 Q 512 800 694 620' fill='none' stroke='%234A2E0E' stroke-width='78' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+/* 색·글자·모서리는 앱 src/ui/theme.ts(Apple 테마)와 같은 값. 어두운 화면은 기기 설정을 따름 */
+:root {
+  --bg: #F5F5F7; --surface: #FFFFFF; --text: #1D1D1F; --sub: #6E6E73; --line: #E0E0E0;
+  --accent: #0066CC; --on-accent: #FFFFFF; --accent-soft: #E5F0FB;
+  --warm-text: #8A5A00; --warm-soft: #FFF1D6;
+  --income: #1A5BC7; --expense: #C62828;
+  --card-border: rgba(0,0,0,0.08);
+  --c1: #0066CC; --c2: #C45500; --c3: #248A3D; --c4: #8944AB; --c5: #8E8E93;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000; --surface: #272729; --text: #F5F5F7; --sub: #CCCCCC; --line: #424245;
+    --accent: #2997FF; --on-accent: #000000; --accent-soft: #12324F;
+    --warm-text: #F2B85A; --warm-soft: #3A2E10;
+    --income: #6FA8FF; --expense: #FF7B72;
+    --card-border: #424245;
+    --c1: #2997FF; --c2: #FF9F0A; --c3: #30D158; --c4: #BF5AF2; --c5: #98989D;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #000000; --surface: #272729; --text: #F5F5F7; --sub: #CCCCCC; --line: #424245;
+  --accent: #2997FF; --on-accent: #000000; --accent-soft: #12324F;
+  --warm-text: #F2B85A; --warm-soft: #3A2E10;
+  --income: #6FA8FF; --expense: #FF7B72;
+  --card-border: #424245;
+  --c1: #2997FF; --c2: #FF9F0A; --c3: #30D158; --c4: #BF5AF2; --c5: #98989D;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 17px; line-height: 1.5; letter-spacing: -0.374px; word-break: keep-all; overflow-wrap: anywhere;
+}
+a { color: var(--accent); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+section { padding: 40px 0; }
+h1, h2, h3 { font-weight: 600; margin: 0; }
+h2 { font-size: 28px; letter-spacing: -0.3px; line-height: 1.25; }
+h3 { font-size: 18px; letter-spacing: -0.3px; }
+.lead { color: var(--sub); margin: 8px 0 0; }
+.num { font-variant-numeric: tabular-nums; }
+.card { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; }
+
+/* 머리글 */
+header.top { padding: 14px 0; }
+header.top .wrap { display: flex; align-items: center; gap: 10px; }
+header.top .brand { font-weight: 600; font-size: 17px; }
+header.top a.go { margin-left: auto; font-size: 15px; text-decoration: none; }
+
+/* 첫 화면 */
+.hero { padding-top: 24px; padding-bottom: 40px; display: grid; gap: 32px; align-items: center; }
+.hero .mark { width: 120px; height: auto; display: block; }
+.hero h1 { font-size: 34px; letter-spacing: -0.374px; line-height: 1.2; margin-top: 12px; }
+.hero .subname { color: var(--sub); font-size: 17px; margin-top: 4px; }
+.hero .catch { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; margin: 20px 0 0; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn { display: inline-block; padding: 12px 22px; border-radius: 9999px; font-size: 17px; text-decoration: none; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.ghost { border: 1px solid var(--accent); color: var(--accent); }
+.hero .hint { color: var(--sub); font-size: 14px; margin-top: 12px; }
+
+/* 그림: 지어낸 예시 데이터로 그린 앱 화면 */
+.phone { width: 100%; max-width: 320px; margin: 0 auto; background: var(--bg); border: 8px solid var(--text); border-radius: 40px; padding: 18px 12px 16px; }
+.phone .bar { display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 600; padding: 0 4px; }
+.phone .sync { font-size: 12px; font-weight: 400; color: var(--sub); }
+.phone .mini { background: var(--surface); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; margin-top: 10px; }
+.phone .cap { font-size: 12px; color: var(--sub); }
+.phone .big { font-size: 24px; font-weight: 600; letter-spacing: -0.3px; }
+.phone .row { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 14px; }
+.phone .row + .row { border-top: 1px solid var(--line); }
+.phone .ico { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); font-size: 15px; flex: none; }
+.phone .who { font-size: 11px; color: var(--sub); }
+.phone .amt { margin-left: auto; font-weight: 600; }
+.phone .out { color: var(--expense); }
+.phone .in { color: var(--income); }
+.phone .lock { font-size: 11px; color: var(--sub); margin-top: 6px; }
+.donut { display: flex; align-items: center; gap: 12px; }
+.donut svg { width: 78px; height: 78px; flex: none; }
+.donut ul { list-style: none; margin: 0; padding: 0; font-size: 12px; }
+.donut li::before { content: "●"; margin-right: 4px; }
+.fake { text-align: center; color: var(--sub); font-size: 12px; margin-top: 10px; }
+
+/* 장점 */
+.why { display: grid; gap: 12px; margin-top: 20px; }
+.why .card p { margin: 6px 0 0; color: var(--sub); font-size: 15px; }
+.why .emoji { font-size: 28px; line-height: 1; }
+
+/* 기능 목록 — 지금 되는 것 / 곧 나와요. 기능이 나오면 <li> 하나만 #soon 에서 #now 로 옮기면 됨 */
+.features { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; }
+.features li { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px; padding: 16px; display: flex; gap: 12px; }
+.features .emoji { font-size: 24px; line-height: 1.2; flex: none; }
+.features h3 { font-size: 17px; }
+.features p { margin: 4px 0 0; color: var(--sub); font-size: 15px; }
+.tag { display: inline-block; font-size: 12px; font-weight: 400; color: var(--accent); background: var(--accent-soft); border-radius: 9999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; letter-spacing: -0.12px; }
+#soon li { background: transparent; border-style: dashed; }
+#soon h3::after { content: "준비 중"; display: inline-block; font-size: 12px; font-weight: 400; color: var(--warm-text); background: var(--warm-soft); border-radius: 9999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; letter-spacing: -0.12px; }
+.note { color: var(--sub); font-size: 14px; margin-top: 12px; }
+
+/* 요금 */
+.plans { display: grid; gap: 12px; margin-top: 20px; }
+.plans ul { margin: 10px 0 0; padding-left: 20px; }
+.plans li { margin-top: 4px; font-size: 15px; }
+.price { font-size: 15px; color: var(--sub); font-weight: 400; margin-left: 6px; }
+.plans .card.family { border: 2px solid var(--accent); }
+.banner { background: var(--warm-soft); color: var(--text); border-radius: 11px; padding: 12px 14px; margin-top: 12px; font-size: 15px; }
+
+/* 쓰는 곳 · 개인정보 */
+.where { display: grid; gap: 12px; margin-top: 20px; }
+.where p { margin: 6px 0 0; color: var(--sub); font-size: 15px; }
+.privacy { margin: 16px 0 0; padding-left: 20px; }
+.privacy li { margin-top: 8px; font-size: 15px; }
+.url { font-weight: 600; overflow-wrap: anywhere; }
+
+footer { padding: 32px 0 48px; color: var(--sub); font-size: 13px; border-top: 1px solid var(--line); }
+footer p { margin: 4px 0; }
+
+@media (min-width: 720px) {
+  .why { grid-template-columns: repeat(2, 1fr); }
+  .features { grid-template-columns: repeat(2, 1fr); }
+  .plans { grid-template-columns: repeat(2, 1fr); }
+  .where { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 960px) {
+  .hero { grid-template-columns: 1.1fr 1fr; padding-top: 48px; }
+  .hero h1 { font-size: 48px; }
+  .why { grid-template-columns: repeat(4, 1fr); }
+  .features { grid-template-columns: repeat(3, 1fr); }
+  h2 { font-size: 34px; }
+  section { padding: 56px 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <svg width="28" height="28" viewBox="0 0 1024 1024" aria-hidden="true"><circle cx="512" cy="512" r="452" fill="#F2B85A" stroke="#C97E1E" stroke-width="72"/><circle cx="362" cy="440" r="78" fill="#4A2E0E"/><circle cx="662" cy="440" r="78" fill="#4A2E0E"/><path d="M 330 620 Q 512 800 694 620" fill="none" stroke="#4A2E0E" stroke-width="78" stroke-linecap="round"/></svg>
+    <span class="brand">오순 가계부</span>
+    <a class="go" href="https://family-ledger.expo.app">웹에서 열기 ›</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap hero">
+  <div>
+    <!-- 앱 마크(동글이 가족) — 앱 assets/brand/mark.svg 그대로 -->
+    <svg class="mark" viewBox="-330 -204 660 660" role="img" aria-label="웃는 동전 셋이 펼친 장부 위에 있는 오순 가계부 마크"><rect x="-318" y="186" width="636" height="136" rx="40" fill="#0B6E4F"/><path d="M -298 196 C -200 166 -100 166 -8 196 V 300 C -100 272 -200 272 -298 300 Z" fill="#FFFFFF"/><path d="M 298 196 C 200 166 100 166 8 196 V 300 C 100 272 200 272 298 300 Z" fill="#FFFFFF"/><g stroke="#0B6E4F" stroke-width="10" stroke-linecap="round" opacity=".35"><path d="M -230 230 h 150"/><path d="M -230 262 h 110"/><path d="M 80 230 h 150"/><path d="M 120 262 h 110"/></g><circle cx="-205" cy="122" r="88" fill="#F2B85A" stroke="#C97E1E" stroke-width="16"/><circle cx="-205" cy="122" r="56" fill="none" stroke="#C97E1E" stroke-width="6" opacity=".45"/><circle cx="205" cy="122" r="88" fill="#F2B85A" stroke="#C97E1E" stroke-width="16"/><circle cx="205" cy="122" r="56" fill="none" stroke="#C97E1E" stroke-width="6" opacity=".45"/><circle cx="0" cy="60" r="130" fill="#F2B85A" stroke="#C97E1E" stroke-width="16"/><circle cx="0" cy="60" r="98" fill="none" stroke="#C97E1E" stroke-width="6" opacity=".45"/><circle cx="-45" cy="50" r="18" fill="#4A2E0E"/><circle cx="45" cy="50" r="18" fill="#4A2E0E"/><path d="M -42 100 Q 0 148 42 100" fill="none" stroke="#4A2E0E" stroke-width="16" stroke-linecap="round"/><ellipse cx="-88" cy="98" rx="22" ry="14" fill="#F48C7A" opacity=".75"/><ellipse cx="88" cy="98" rx="22" ry="14" fill="#F48C7A" opacity=".75"/><circle cx="-236" cy="115" r="12.6" fill="#4A2E0E"/><circle cx="-174" cy="115" r="12.6" fill="#4A2E0E"/><path d="M -234 150 Q -205 184 -176 150" fill="none" stroke="#4A2E0E" stroke-width="11.2" stroke-linecap="round"/><ellipse cx="-267" cy="149" rx="15" ry="10" fill="#F48C7A" opacity=".75"/><ellipse cx="-143" cy="149" rx="15" ry="10" fill="#F48C7A" opacity=".75"/><circle cx="174" cy="115" r="12.6" fill="#4A2E0E"/><circle cx="236" cy="115" r="12.6" fill="#4A2E0E"/><path d="M 176 150 Q 205 184 234 150" fill="none" stroke="#4A2E0E" stroke-width="11.2" stroke-linecap="round"/><ellipse cx="143" cy="149" rx="15" ry="10" fill="#F48C7A" opacity=".75"/><ellipse cx="267" cy="149" rx="15" ry="10" fill="#F48C7A" opacity=".75"/></svg>
+    <h1>오순 가계부</h1>
+    <div class="subname">오순도순 함께 쓰는 가계부</div>
+    <p class="catch">같이 적으면 여윳돈이 보여요</p>
+    <p class="lead">가족이 한 장부를 함께 적고 함께 봐요. 카드값을 빼고 지금 쓸 수 있는 돈까지 알려 줘요.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://family-ledger.expo.app">웹에서 바로 쓰기</a>
+      <a class="btn ghost" href="#now">무엇이 되나요</a>
+    </div>
+    <p class="hint">카카오·구글 계정으로 들어와요. 아이폰은 사파리에서 열고 「홈 화면에 추가」하면 앱처럼 써요.</p>
+  </div>
+
+  <div>
+    <!-- 그림 속 장부 이름·사람·가게·금액은 모두 지어낸 예시 -->
+    <div class="phone" role="img" aria-label="앱 화면 예시: 이번 달 쓸 수 있는 돈, 가족이 적은 내역, 분류별 도넛">
+      <div class="bar"><span>우리집 가계부</span><span class="sync">방금 동기화됨</span></div>
+      <div class="mini">
+        <div class="cap">생활비 통장 · 쓸 수 있는 돈</div>
+        <div class="big num">812,000원</div>
+        <div class="cap num">통장 1,240,000 − 카드값 318,000 − 나갈 돈 110,000</div>
+      </div>
+      <div class="mini">
+        <div class="row"><span class="ico">🛒</span><span>동네마트<br><span class="who">엄마 · A카드</span></span><span class="amt out num">−42,300</span></div>
+        <div class="row"><span class="ico">☕</span><span>골목카페<br><span class="who">아빠 · 생활비 통장</span></span><span class="amt out num">−4,500</span></div>
+        <div class="row"><span class="ico">🍞</span><span>빵집 · 품목 3개<br><span class="who">첫째 · 용돈 지갑</span></span><span class="amt out num">−9,800</span></div>
+        <div class="row"><span class="ico">💰</span><span>월급<br><span class="who">반복 · 매월 25일</span></span><span class="amt in num">+2,500,000</span></div>
+        <div class="lock">🔒 비상금 계좌는 나만 봐요</div>
+      </div>
+      <div class="mini donut">
+        <svg viewBox="0 0 42 42" aria-hidden="true">
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--c1)" stroke-width="7" stroke-dasharray="38 62" stroke-dashoffset="25"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--c2)" stroke-width="7" stroke-dasharray="24 76" stroke-dashoffset="87"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--c3)" stroke-width="7" stroke-dasharray="18 82" stroke-dashoffset="63"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--c4)" stroke-width="7" stroke-dasharray="12 88" stroke-dashoffset="45"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--c5)" stroke-width="7" stroke-dasharray="8 92" stroke-dashoffset="33"/>
+        </svg>
+        <ul>
+          <li style="color:var(--c1)"><span style="color:var(--text)">식비 38%</span></li>
+          <li style="color:var(--c2)"><span style="color:var(--text)">생활 24%</span></li>
+          <li style="color:var(--c3)"><span style="color:var(--text)">교통 18%</span></li>
+          <li style="color:var(--c4)"><span style="color:var(--text)">아이 12%</span></li>
+          <li style="color:var(--c5)"><span style="color:var(--text)">나머지 8%</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fake">그림 속 이름·가게·금액은 지어낸 예시예요.</p>
+  </div>
+</div>
+
+<section id="why">
+  <div class="wrap">
+    <h2>가족이 함께 쓰는 가계부</h2>
+    <p class="lead">한 사람만 적는 가계부는 오래 못 가요. 오순 가계부는 처음부터 가족이 같이 쓰도록 만들었어요.</p>
+    <div class="why">
+      <div class="card"><div class="emoji">🏡</div><h3>한 장부를 같이</h3><p>초대 링크 하나로 가족이 들어와요. 각자 자기 계정으로, 같은 장부를 적고 봐요.</p></div>
+      <div class="card"><div class="emoji">✍️</div><h3>누가 적었는지 보여요</h3><p>가족이 적은 줄에는 적은 사람이 작게 보여요. 따로 물어볼 필요가 없어요.</p></div>
+      <div class="card"><div class="emoji">🔒</div><h3>내 비상금은 나만</h3><p>「나만 보기」 계좌와 그 안의 내역은 가족에게 보이지 않고, 가족 합계에서도 빠져요.</p></div>
+      <div class="card"><div class="emoji">🔄</div><h3>바로 맞춰져요</h3><p>폰에서 적으면 몇 초 안에 가족 화면에도 보여요. 인터넷이 끊겨도 적어 두면 나중에 올라가요.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="now-section">
+  <div class="wrap">
+    <h2>지금 되는 것</h2>
+    <p class="lead">지금 바로 쓸 수 있는 기능이에요.</p>
+    <ul class="features" id="now">
+      <li><span class="emoji">🏡</span><div><h3>가족 공유와 나만 보기 계좌</h3><p>초대 링크로 가족과 한 장부를 써요. 비상금·용돈 계좌는 「나만 보기」로 두면 나만 봐요.</p></div></li>
+      <li><span class="emoji">⚡</span><div><h3>빠른 적기</h3><p>자주 쓰는 조합과 자주 가는 가게를 추천해요. 고르면 분류·계좌가 함께 채워져요.</p></div></li>
+      <li><span class="emoji">📩</span><div><h3>결제 문자 자동 입력</h3><p>결제 문자를 붙여 넣거나, 아이폰은 단축어로 보내면 「확인 대기」에 모여요. 확인하고 누르면 저장돼요. 결제 알림을 저절로 읽는 것은 안드로이드 가족 시험판에서만 돼요.</p></div></li>
+      <li><span class="emoji">📶</span><div><h3>인터넷 없이 적기</h3><p>연결이 끊겨도 적어 두면, 다시 연결될 때 가족 장부에 올라가요.</p></div></li>
+      <li><span class="emoji">🔁</span><div><h3>반복 내역 · 할부</h3><p>매일·매주·매월·매년 반복과 할부 회차를 적어요. 앱을 안 열어도 그날 회차가 생겨요.</p></div></li>
+      <li><span class="emoji">✂️</span><div><h3>품목 나누기 · 나눠 내기</h3><p>한 번 결제를 품목 여러 줄로 나누고, 전체 할인도 비율대로 나눠요. 한 결제를 카드와 포인트처럼 여러 계좌로 나눠 낼 수도 있어요.</p></div></li>
+      <li><span class="emoji">🧾</span><div><h3>받을 돈 정리</h3><p>여럿 몫을 대신 낸 결제는 누구에게 얼마를 받을지 남겨 두고, 받으면 「받음」으로 표시해요.</p></div></li>
+      <li><span class="emoji">🗓️</span><div><h3>달력 · 태그 · 검색</h3><p>달력에서 날짜별 수입·지출과 메모를 보고, 태그로 묶고, 내용·가게·계좌·기간으로 찾아요.</p></div></li>
+      <li><span class="emoji">💳</span><div><h3>카드값과 쓸 수 있는 돈</h3><p>카드값 내는 날·이용 기간을 넣으면 이번에 나갈 카드값이 보여요. 통장마다 카드값·나갈 돈을 뺀 「쓸 수 있는 돈」을 알려 줘요. 카드값 내는 날 전날 알림(금액 없이)도 있어요.</p></div></li>
+      <li><span class="emoji">🎁</span><div><h3>카드 실적 · 혜택 · 캐시백</h3><p>전월 실적, 이번 달 받은 혜택과 남은 한도를 계산해요. 상품권 할인 구매와 캐시백도 먼저 산 것부터 나눠 계산해요.</p></div></li>
+      <li><span class="emoji">👛</span><div><h3>지갑과 순자산</h3><p>현금·은행·카드·상품권·포인트·증권·대출을 묶어 자산·빚·순자산과 달마다 바뀐 모양을 보여 줘요.</p></div></li>
+      <li><span class="emoji">💱</span><div><h3>외화 통장</h3><p>달러·엔 같은 외화 잔액을 그대로 적고, 매일 환율로 원화로 바꿔 보여 줘요. 샀을 때보다 얼마 올랐는지도 보여요.</p></div></li>
+      <li><span class="emoji">📈</span><div><h3>증권 계좌</h3><p>사고판 기록이나 증권사에서 받은 파일로 보유 종목·평균 산 값·수익률을 봐요. 국내 주식과 미국 주식.</p></div></li>
+      <li><span class="emoji">🏦</span><div><h3>대출 원리금</h3><p>금리·갚는 방식·기간을 넣으면 달마다 원금·이자 일정이 생기고, 남은 원금과 다 갚는 날을 보여 줘요.</p></div></li>
+      <li><span class="emoji">📊</span><div><h3>통계 · 연간 보고서</h3><p>분류별 도넛, 12개월 막대, 한 해 한눈에. 주·월·연 단위로 넘겨 봐요.</p></div></li>
+      <li><span class="emoji">🎯</span><div><h3>예산</h3><p>분류별·사람별 한 달 예산을 정하고, 오늘까지 얼마나 썼는지 막대로 봐요.</p></div></li>
+      <li><span class="emoji">📥</span><div><h3>편한가계부 엑셀 가져오기<span class="tag">PC 웹</span></h3><p>내보낸 엑셀을 넣으면 달마다 건수·합계가 맞는지 자동으로 검사해요. 다른 가계부 엑셀·CSV도 열을 골라 가져와요. 파일은 브라우저 안에서만 읽어요.</p></div></li>
+      <li><span class="emoji">📤</span><div><h3>엑셀로 내보내기</h3><p>내 장부를 엑셀 파일로 받아 둘 수 있어요.</p></div></li>
+      <li><span class="emoji">🗑️</span><div><h3>휴지통</h3><p>실수로 지운 내역·계좌는 30일 안에 되살려요.</p></div></li>
+      <li><span class="emoji">🌙</span><div><h3>다크 모드</h3><p>폰·PC의 밝음/어두움 설정을 그대로 따라요.</p></div></li>
+      <li><span class="emoji">🔐</span><div><h3>앱 잠금 · 화면 캡처 막기<span class="tag">안드로이드 가족 시험판</span></h3><p>지문·얼굴로 앱을 잠가요(기본은 꺼짐). 앱 화면은 캡처되지 않게 막아요.</p></div></li>
+      <li><span class="emoji">🎟️</span><div><h3>요금제 · 리딤코드</h3><p>설정에서 우리 장부의 요금제를 보고, 받은 코드를 넣으면 가족 요금 기간이 더해져요.</p></div></li>
+      <li><span class="emoji">🚪</span><div><h3>계정 지우기</h3><p>앱 설정이나 웹 링크에서 언제든 계정을 지울 수 있어요.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="soon-section">
+  <div class="wrap">
+    <h2>곧 나와요</h2>
+    <p class="lead">처음부터 계획했지만 아직 준비 중인 기능이에요. 지금은 쓸 수 없어요.</p>
+    <ul class="features" id="soon">
+      <li><span class="emoji">🤖</span><div><h3>결제 문자 자동 입력 완성</h3><p>분류까지 알아서 채우고, 아이폰도 설정 한 번이면 되게.</p></div></li>
+      <li><span class="emoji">📱</span><div><h3>플레이스토어 앱</h3><p>지금 안드로이드 앱은 가족 시험용 설치 파일로만 나눠요. 그전까지는 웹으로 써 주세요.</p></div></li>
+      <li><span class="emoji">🍎</span><div><h3>아이폰 앱 · 애플 로그인</h3><p>지금 아이폰은 사파리 「홈 화면에 추가」로 쓰고, 카카오·구글로 들어와요.</p></div></li>
+      <li><span class="emoji">💳</span><div><h3>가족 요금 결제</h3><p>앱 안에서 가족 요금을 바로 결제하기.</p></div></li>
+      <li><span class="emoji">💾</span><div><h3>자동 백업 · 완전 내보내기</h3><p>내 장부를 정해진 때마다 파일로 받아 두고, 편한가계부 형식으로도 내보내 되돌아갈 수 있게.</p></div></li>
+      <li><span class="emoji">📂</span><div><h3>네이버 가계부 · 뱅크샐러드 바로 가져오기</h3><p>그 앱에서 받은 파일을 열 고르기 없이 바로.</p></div></li>
+      <li><span class="emoji">🧩</span><div><h3>홈 화면 위젯</h3><p>앱을 열지 않고 이번 달 지출과 쓸 수 있는 돈을 보기.</p></div></li>
+      <li><span class="emoji">📷</span><div><h3>영수증 사진으로 적기</h3><p>사진을 찍으면 가게·금액을 읽어 채우기.</p></div></li>
+      <li><span class="emoji">🕘</span><div><h3>고친 기록 보기 · 되살리기</h3><p>누가 언제 무엇을 고쳤는지 보고, 덮인 내용을 되돌리기.</p></div></li>
+      <li><span class="emoji">🧮</span><div><h3>카드 혜택 더 똑똑하게</h3><p>실적 구간별 한도, 연회비 대비 이득, 나에게 맞는 카드 추천.</p></div></li>
+      <li><span class="emoji">📴</span><div><h3>다른 기기에서 로그아웃</h3><p>잃어버린 폰처럼 다른 기기의 로그인을 한 번에 끊기.</p></div></li>
+    </ul>
+    <p class="note">순서와 날짜는 아직 정해지지 않았어요.</p>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <h2>요금</h2>
+    <p class="lead">요금은 장부 하나에 하나예요. 가족 모두 같은 요금제를 쓰고, 1인당 요금은 없어요.</p>
+    <div class="plans">
+      <div class="card">
+        <h3>무료</h3>
+        <ul>
+          <li>적기·고치기·휴지통·인터넷 없이 적기</li>
+          <li>가족 함께 쓰기·초대·태그·알림</li>
+          <li>통계·지갑·순자산·예산</li>
+          <li>다른 가계부 가져오기·기본 내보내기(엑셀·CSV)</li>
+        </ul>
+      </div>
+      <div class="card family">
+        <h3>가족 요금<span class="price num">월 3,000원 · 연 30,000원</span></h3>
+        <ul>
+          <li>무료의 모든 것</li>
+          <li>결제 문자 자동 입력 완성(분류까지) — 준비 중</li>
+          <li>자산 자동(외화 환율·증권 수익률·카드 한 표)</li>
+          <li>자동 백업·완전 내보내기 — 준비 중</li>
+          <li>첫 30일은 무료 체험</li>
+        </ul>
+      </div>
+    </div>
+    <div class="banner">결제는 아직 열리지 않았어요. 지금은 잠긴 기능 없이 모든 기능을 그대로 써요. 결제가 열리면 앱 설정 › 요금제에서 바로 바꿀 수 있어요.</div>
+    <p class="note">지금은 광고가 없어요.</p>
+  </div>
+</section>
+
+<section id="where">
+  <div class="wrap">
+    <h2>어디서 쓰나요</h2>
+    <div class="where">
+      <div class="card"><h3>💻 PC · 폰 웹</h3><p>주소창에 아래 주소를 열면 바로 써요.</p><p class="url"><a href="https://family-ledger.expo.app">family-ledger.expo.app</a></p></div>
+      <div class="card"><h3>🍎 아이폰</h3><p>사파리로 위 주소를 열고, 공유 버튼 › 「홈 화면에 추가」를 누르면 앱처럼 써요.</p></div>
+      <div class="card"><h3>🤖 안드로이드</h3><p>지금은 웹으로 써 주세요. 플레이스토어 앱은 준비 중이에요.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="wrap">
+    <h2>개인정보 안내</h2>
+    <p class="lead">가계부는 돈과 생활이 담긴 기록이에요. 지금 실제로 어떻게 다루는지 그대로 적었어요.</p>
+    <div class="card" style="margin-top:20px">
+      <ul class="privacy">
+        <li>은행·카드 비밀번호를 묻지 않아요. 은행에 직접 접속하지 않아요.</li>
+        <li>가져오는 엑셀 파일은 브라우저 안에서만 읽고, 파일 자체를 서버에 올리지 않아요.</li>
+        <li>결제 문자 원문은 저장하지 않아요. 읽어 낸 값(카드·금액·가게·시각)만 「확인 대기」에 두고, 30일이 지나면 지워요.</li>
+        <li>「나만 보기」 계좌는 서버 보안 규칙으로 다른 가족에게 보이지 않아요.</li>
+        <li>폰 앱 안 사본은 암호화돼요. 웹은 브라우저 저장이 암호화되지 않으니 개인 PC에서 써 주세요. 로그아웃하면 그 기기 사본은 지워져요.</li>
+        <li>지금은 광고·추적·분석 도구를 쓰지 않아요. 이 소개 페이지도 쿠키나 바깥 요청이 없어요.</li>
+        <li>서버 기록은 매일 백업하고, 백업 파일은 30일이 지나면 지워져요.</li>
+        <li>계정 지우기: 앱 설정 › 계정 지우기, 또는 <a href="https://family-ledger.expo.app/delete-account">family-ledger.expo.app/delete-account</a>. 혼자 쓰던 장부는 통째로 지워지고, 가족 장부라면 나는 가족에서 나가고 내 이름은 「나간 가족」으로 바뀌어요. 다른 가족이 있는 장부 주인은 먼저 주인을 넘겨 주세요.</li>
+      </ul>
+      <p class="note">정식 개인정보처리방침은 준비 중이에요.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>오순 가계부</strong> · 오순도순 함께 쓰는 가계부</p>
+    <p>편한가계부는 다른 곳에서 만든 앱이에요. 오순 가계부와는 관계없어요.</p>
+  </div>
+</footer>
+
+</body>
+</html>
