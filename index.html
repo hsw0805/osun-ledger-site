@@ -111,14 +111,6 @@ header.top a.go { margin-left: auto; font-size: 15px; text-decoration: none; }
 #soon h3::after { content: "준비 중"; display: inline-block; font-size: 12px; font-weight: 400; color: var(--warm-text); background: var(--warm-soft); border-radius: 9999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; letter-spacing: -0.12px; }
 .note { color: var(--sub); font-size: 14px; margin-top: 12px; }
 
-/* 요금 */
-.plans { display: grid; gap: 12px; margin-top: 20px; }
-.plans ul { margin: 10px 0 0; padding-left: 20px; }
-.plans li { margin-top: 4px; font-size: 15px; }
-.price { font-size: 15px; color: var(--sub); font-weight: 400; margin-left: 6px; }
-.plans .card.family { border: 2px solid var(--accent); }
-.banner { background: var(--warm-soft); color: var(--text); border-radius: 11px; padding: 12px 14px; margin-top: 12px; font-size: 15px; }
-
 /* 쓰는 곳 · 개인정보 */
 .where { display: grid; gap: 12px; margin-top: 20px; }
 .where p { margin: 6px 0 0; color: var(--sub); font-size: 15px; }
@@ -132,7 +124,6 @@ footer p { margin: 4px 0; }
 @media (min-width: 720px) {
   .why { grid-template-columns: repeat(2, 1fr); }
   .features { grid-template-columns: repeat(2, 1fr); }
-  .plans { grid-template-columns: repeat(2, 1fr); }
   .where { grid-template-columns: repeat(3, 1fr); }
 }
 @media (min-width: 960px) {
@@ -258,7 +249,6 @@ footer p { margin: 4px 0; }
     <p class="lead">처음부터 계획했지만 아직 준비 중인 기능이에요. 지금은 쓸 수 없어요.</p>
     <ul class="features" id="soon">
       <li><span class="emoji">🤖</span><div><h3>결제 문자 자동 입력 완성</h3><p>분류까지 알아서 채우고, 아이폰도 설정 한 번이면 되게.</p></div></li>
-      <li><span class="emoji">💳</span><div><h3>가족 요금 결제</h3><p>앱 안에서 가족 요금을 바로 결제하기.</p></div></li>
       <li><span class="emoji">💾</span><div><h3>자동 백업 · 완전 내보내기</h3><p>내 장부를 정해진 때마다 파일로 받아 두고, 예전에 쓰던 가계부 앱으로 되돌아갈 수 있는 형식으로도 내보내기.</p></div></li>
       <li><span class="emoji">🧩</span><div><h3>홈 화면 위젯</h3><p>앱을 열지 않고 이번 달 지출과 쓸 수 있는 돈을 보기.</p></div></li>
       <li><span class="emoji">📷</span><div><h3>영수증 사진으로 적기</h3><p>사진을 찍으면 가게·금액을 읽어 채우기.</p></div></li>
@@ -267,36 +257,6 @@ footer p { margin: 4px 0; }
       <li><span class="emoji">📴</span><div><h3>다른 기기에서 로그아웃</h3><p>잃어버린 폰처럼 다른 기기의 로그인을 한 번에 끊기.</p></div></li>
     </ul>
     <p class="note">순서와 날짜는 아직 정해지지 않았어요.</p>
-  </div>
-</section>
-
-<section id="price">
-  <div class="wrap">
-    <h2>요금</h2>
-    <p class="lead">요금은 장부 하나에 하나예요. 가족 모두 같은 요금제를 쓰고, 1인당 요금은 없어요.</p>
-    <div class="plans">
-      <div class="card">
-        <h3>무료</h3>
-        <ul>
-          <li>적기·고치기·휴지통·인터넷 없이 적기</li>
-          <li>가족 함께 쓰기·초대·태그·알림</li>
-          <li>통계·지갑·순자산·예산</li>
-          <li>다른 가계부 가져오기·기본 내보내기(엑셀·CSV)</li>
-        </ul>
-      </div>
-      <div class="card family">
-        <h3>가족 요금<span class="price num">월 3,000원 · 연 30,000원</span></h3>
-        <ul>
-          <li>무료의 모든 것</li>
-          <li>결제 문자 자동 입력 완성(분류까지) — 준비 중</li>
-          <li>자산 자동(외화 환율·증권 수익률·카드 한 표)</li>
-          <li>자동 백업·완전 내보내기 — 준비 중</li>
-          <li>첫 30일은 무료 체험</li>
-        </ul>
-      </div>
-    </div>
-    <div class="banner">결제는 아직 열리지 않았어요. 지금은 잠긴 기능 없이 모든 기능을 그대로 써요.</div>
-    <p class="note">지금은 광고가 없어요.</p>
   </div>
 </section>
 
