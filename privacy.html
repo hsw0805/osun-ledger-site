@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>개인정보처리방침 — 오순 가계부</title>
+<meta name="description" content="오순 가계부가 어떤 정보를 어디에 얼마나 두는지, 지우는 방법까지 적은 개인정보처리방침.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Ccircle cx='512' cy='512' r='452' fill='%23F2B85A' stroke='%23C97E1E' stroke-width='72'/%3E%3Ccircle cx='362' cy='440' r='78' fill='%234A2E0E'/%3E%3Ccircle cx='662' cy='440' r='78' fill='%234A2E0E'/%3E%3Cpath d='M 330 620 Q 512 800 694 620' fill='none' stroke='%234A2E0E' stroke-width='78' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+/* 색·글자·모서리는 앱 src/ui/theme.ts(Apple 테마)와 같은 값. 어두운 화면은 기기 설정을 따름 */
+:root {
+  --bg: #F5F5F7; --surface: #FFFFFF; --text: #1D1D1F; --sub: #6E6E73; --line: #E0E0E0;
+  --accent: #0066CC; --on-accent: #FFFFFF; --accent-soft: #E5F0FB;
+  --warm-text: #8A5A00; --warm-soft: #FFF1D6;
+  --income: #1A5BC7; --expense: #C62828;
+  --card-border: rgba(0,0,0,0.08);
+  --c1: #0066CC; --c2: #C45500; --c3: #248A3D; --c4: #8944AB; --c5: #8E8E93;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000; --surface: #272729; --text: #F5F5F7; --sub: #CCCCCC; --line: #424245;
+    --accent: #2997FF; --on-accent: #000000; --accent-soft: #12324F;
+    --warm-text: #F2B85A; --warm-soft: #3A2E10;
+    --income: #6FA8FF; --expense: #FF7B72;
+    --card-border: #424245;
+    --c1: #2997FF; --c2: #FF9F0A; --c3: #30D158; --c4: #BF5AF2; --c5: #98989D;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #000000; --surface: #272729; --text: #F5F5F7; --sub: #CCCCCC; --line: #424245;
+  --accent: #2997FF; --on-accent: #000000; --accent-soft: #12324F;
+  --warm-text: #F2B85A; --warm-soft: #3A2E10;
+  --income: #6FA8FF; --expense: #FF7B72;
+  --card-border: #424245;
+  --c1: #2997FF; --c2: #FF9F0A; --c3: #30D158; --c4: #BF5AF2; --c5: #98989D;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 17px; line-height: 1.5; letter-spacing: -0.374px; word-break: keep-all; overflow-wrap: anywhere;
+}
+a { color: var(--accent); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+section { padding: 40px 0; }
+h1, h2, h3 { font-weight: 600; margin: 0; }
+h2 { font-size: 28px; letter-spacing: -0.3px; line-height: 1.25; }
+h3 { font-size: 18px; letter-spacing: -0.3px; }
+.lead { color: var(--sub); margin: 8px 0 0; }
+.num { font-variant-numeric: tabular-nums; }
+.card { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; }
+
+/* 머리글 */
+header.top { padding: 14px 0; }
+header.top .wrap { display: flex; align-items: center; gap: 10px; }
+header.top .brand { font-weight: 600; font-size: 17px; }
+header.top a.go { margin-left: auto; font-size: 15px; text-decoration: none; }
+
+/* 방침 본문 */
+.doc { max-width: 720px; padding-top: 16px; padding-bottom: 24px; }
+.doc h1 { font-size: 34px; letter-spacing: -0.374px; line-height: 1.2; }
+.doc .eff { display: inline-block; margin-top: 12px; font-size: 15px; font-weight: 600; color: var(--warm-text); background: var(--warm-soft); border-radius: 9999px; padding: 4px 14px; }
+.doc section { padding: 0; margin-top: 32px; }
+.doc h2 { font-size: 22px; letter-spacing: -0.3px; margin-bottom: 10px; scroll-margin-top: 12px; }
+.doc p { margin: 8px 0 0; font-size: 16px; }
+.doc ul { margin: 8px 0 0; padding-left: 20px; }
+.doc li { margin-top: 6px; font-size: 16px; }
+.doc .sub, .doc .note { color: var(--sub); font-size: 14px; }
+.toc { margin-top: 20px; }
+.toc ol { margin: 8px 0 0; padding-left: 22px; font-size: 15px; }
+.toc li { margin-top: 4px; font-size: 15px; }
+.list { list-style: none; padding: 0 !important; display: grid; gap: 10px; }
+.list li { margin: 0; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px; padding: 14px 16px; }
+.list b { display: block; font-weight: 600; }
+.list span { display: block; color: var(--sub); font-size: 15px; margin-top: 2px; }
+.todo { color: var(--warm-text); background: var(--warm-soft); border-radius: 6px; padding: 0 5px; font-size: 14px; white-space: nowrap; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn { display: inline-block; padding: 12px 22px; border-radius: 9999px; font-size: 17px; text-decoration: none; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.ghost { border: 1px solid var(--accent); color: var(--accent); }
+.url { font-weight: 600; overflow-wrap: anywhere; }
+footer { padding: 32px 0 48px; color: var(--sub); font-size: 13px; border-top: 1px solid var(--line); margin-top: 40px; }
+footer p { margin: 4px 0; }
+@media (min-width: 960px) { .doc h1 { font-size: 44px; } .doc h2 { font-size: 26px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <svg width="28" height="28" viewBox="0 0 1024 1024" aria-hidden="true"><circle cx="512" cy="512" r="452" fill="#F2B85A" stroke="#C97E1E" stroke-width="72"/><circle cx="362" cy="440" r="78" fill="#4A2E0E"/><circle cx="662" cy="440" r="78" fill="#4A2E0E"/><path d="M 330 620 Q 512 800 694 620" fill="none" stroke="#4A2E0E" stroke-width="78" stroke-linecap="round"/></svg>
+    <span class="brand">오순 가계부</span>
+    <a class="go" href="index.html">소개 페이지 ›</a>
+  </div>
+</header>
+
+<main class="wrap doc">
+  <h1>개인정보처리방침</h1>
+  <span class="eff">시행일 2026-11-01(안)</span>
+  <p class="sub">「오순 가계부」(안드로이드 앱 dev.familyledger.app · 웹 family-ledger.expo.app)가 어떤 정보를 어디에 얼마나 두는지, 실제로 하는 대로 적었어요.</p>
+  <p class="sub">운영자·개인정보 보호책임자 함승우 · 연락처 <a href="mailto:hsw0805@gmail.com">hsw0805@gmail.com</a></p>
+
+  <nav class="card toc" aria-label="차례">
+    <strong>차례</strong>
+    <ol>
+      <li><a href="#collect">모으는 것과 이유</a></li>
+      <li><a href="#keep">두는 기간</a></li>
+      <li><a href="#vendors">맡기는 곳 · 국외 이전</a></li>
+      <li><a href="#delete">지우는 방법</a></li>
+      <li><a href="#family">가족끼리 보이는 범위</a></li>
+      <li><a href="#safe">안전 조치</a></li>
+      <li><a href="#ads">광고 · 추적</a></li>
+      <li><a href="#kids">아동</a></li>
+      <li><a href="#contact">문의</a></li>
+      <li><a href="#change">바뀌면 알리는 방법</a></li>
+    </ol>
+  </nav>
+
+  <section id="collect">
+    <h2>1. 모으는 것과 이유</h2>
+    <ul class="list">
+      <li><b>로그인 정보</b><span>카카오·구글 계정으로 로그인해요. 로그인에 쓰는 이메일 같은 계정 식별 정보를 받아요(받는 항목: 이메일·이름 또는 닉네임·프로필 사진 주소 — 우리 서버 Supabase 가 카카오·구글에 기본으로 요청하는 항목). 이유: 로그인과 본인 구분.</span></li>
+      <li><b>표시 이름 · 가족 안 역할</b><span>이유: 가족 장부에서 누가 적었는지 보여 주기.</span></li>
+      <li><b>가계부 기록</b><span>계좌(이름·카드사·결제일·대출 조건), 내역(금액·날짜·분류·내용·사용처·메모·태그·함께한 사람 이름), 반복·자주 쓰는 조합, 분류, 태그, 주식 거래 기록, 달력 메모, 예산. 직접 적은 것만 모아요. 이유: 가계부 기능과 가족 공유·동기화.</span></li>
+      <li><b>결제 알림에서 읽은 값(선택)</b><span>안드로이드 앱에서 「알림 읽기」를 켜면, 알림 중 결제 말과 금액이 있는 것만 폰 안에서 해석해요. 서버로 가는 것은 카드사·끝 4자리·금액·가게·시각뿐이고, 알림 원문은 서버에 보내지 않아요. 원래 알림 글은 그 폰 안에만 30일 있어요. 아이폰 단축어는 서버가 메모리에서 해석하고 원문은 바로 버려요. 이유: 결제 자동 입력.</span></li>
+      <li><b>알림 설정 · 알림 받을 기기 주소</b><span>안드로이드 푸시 주소(FCM), 웹 푸시 주소. 이유: 가족 알림·결제일 알림 보내기. 알림 글에 금액은 기본으로 안 들어가요.</span></li>
+      <li><b>문의 글</b><span>설정 › 문의하기에 직접 쓴 글과 앱 판 이름·기기 종류(아이폰·안드로이드·웹)만. 장부 내용은 붙지 않아요. 이유: 문의 답하기.</span></li>
+      <li><b>운영 기록</b><span>앱을 쓴 날(날짜만), 오류 종류(오류 코드와 시각만, 가계부 내용 없음), 틀린 초대 코드 시도. 이유: 오류 살피기·무차별 대입 막기·운영 통계.</span></li>
+      <li><b>이 기기에만 두는 것</b><span>폰 안 사본(암호화), 앱 잠금 설정, 연말정산 미리 보기에 넣은 총급여, 결제일 알림 시각. 서버로 보내지 않아요. 엑셀 파일을 가져올 때는 브라우저 안에서만 읽고 파일을 서버에 올리지 않아요.</span></li>
+    </ul>
+    <p>은행·카드 비밀번호와 주민등록번호는 묻지 않아요. 위치·연락처·사진·마이크는 쓰지 않아요.</p>
+  </section>
+
+  <section id="keep">
+    <h2>2. 두는 기간</h2>
+    <ul>
+      <li>로그인 정보·가계부 기록·알림 설정·문의 글: 계정을 지울 때까지. 지운 내역·계좌는 휴지통에 30일 있다가 사라져요.</li>
+      <li>결제 알림에서 읽은 값: 확인하거나 버리면 바로, 아니면 30일 뒤 자동으로 지워져요.</li>
+      <li>알림 받을 기기 주소: 로그아웃하거나 알림을 끄면 그 기기 것을 지워요.</li>
+      <li>보낼 알림 대기 줄: 보낸 뒤 2일. 틀린 초대 코드 시도: 1일. 오류 기록: 30일. 앱을 쓴 날 기록: 13개월.</li>
+      <li>관리자가 한 작업 기록: 보안을 위해 계속 남겨요(관리자·시각·한 일·대상 번호 앞자리만, 가계부 내용은 없어요).</li>
+      <li>서버 백업: 매일 백업하고, 백업 파일은 30일이 지나면 지워져요. 그래서 계정을 지워도 백업 속에는 최대 30일 남아 있다가 사라져요.</li>
+      <li>기기 사본: 로그아웃하거나 가족에서 나가면 그 기기 사본을 비워요.</li>
+    </ul>
+  </section>
+
+  <section id="vendors">
+    <h2>3. 맡기는 곳 · 국외 이전</h2>
+    <p>서비스를 돌리려고 아래 곳에 일을 맡겨요. 맡긴 곳은 맡긴 일만 하고, 광고나 분석에 쓰지 않아요.</p>
+    <ul class="list">
+      <li><b>Supabase</b><span>서버·데이터베이스·로그인(1장 서버 쪽 정보 전부). 데이터 위치: 서울(ap-northeast-2). 회사 소재지: 미국.</span></li>
+      <li><b>Expo</b><span>앱 업데이트 배포와 웹 호스팅. 가계부 내용은 가지 않아요. 업데이트를 받을 때 기기 종류(안드로이드)·앱 판 번호·IP 주소가 가요. 국외.</span></li>
+      <li><b>Google(FCM)</b><span>안드로이드 푸시 알림 전달. 알림 글(기본은 금액 없음)이 지나가요. 국외.</span></li>
+      <li><b>브라우저 푸시 서비스(애플·구글·모질라)</b><span>웹 푸시 전달. 국외.</span></li>
+      <li><b>카카오 · 구글</b><span>로그인 확인. 로그인할 때 그 회사의 로그인 화면을 거쳐요.</span></li>
+      <li><b>GitHub</b><span>매일 새벽의 서버 백업 보관(암호로 잠근 파일만, 30일)과 반복 내역 자동 넣기. 위치 미국.</span></li>
+    </ul>
+    <p>국외 이전: 위 가운데 국외에 있는 곳으로 정보가 옮겨질 수 있어요. 항목·시기·보관 기간은 1~2장과 같아요. 이전받는 곳: Supabase Inc.(미국, 데이터 보관은 서울 지역 · <a href="https://supabase.com/privacy">supabase.com/privacy</a>), 650 Industries(Expo, 미국 · <a href="https://expo.dev/privacy">expo.dev/privacy</a>), Google LLC(푸시 알림·구글 로그인, 미국 · <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>). 시기·방법: 앱을 쓸 때 인터넷으로 그때그때. 거부 방법: 앱을 쓰지 않거나 계정을 지우면 돼요(거부하면 서비스를 쓸 수 없어요).</p>
+  </section>
+
+  <section id="delete">
+    <h2>4. 지우는 방법</h2>
+    <p>「오순 가계부」 계정은 앱을 다시 깔지 않고도 지울 수 있어요.</p>
+    <ul>
+      <li>앱: 설정 › 계정 지우기</li>
+      <li>웹(로그인 없이 열려요): <a class="url" href="https://family-ledger.expo.app/delete-account">family-ledger.expo.app/delete-account</a></li>
+    </ul>
+    <p>지우면 이렇게 돼요.</p>
+    <ul>
+      <li>혼자 쓰던 장부는 장부 전체가 지워져요.</li>
+      <li>가족이 있는 장부라면 나는 가족에서 나가고, 내 비공개 계좌와 그 안의 내역은 지워져요. 가족이 같이 보던 내역의 「적은 사람」 이름은 「나간 가족」으로 바뀌어요. 다른 가족이 있는 장부 주인은 먼저 주인을 넘겨 주세요.</li>
+      <li>로그인 계정, 푸시 주소, 결제 알림에서 읽은 값, 단축어 열쇠, 문의 글, 운영 기록이 같이 지워져요.</li>
+      <li>이 기기 사본도 비워져요.</li>
+      <li>서버 백업 속에는 최대 30일 남아 있다가 사라져요.</li>
+    </ul>
+    <p>앱을 쓸 수 없을 때는 아래 문의로 알려 주세요.</p>
+  </section>
+
+  <section id="family">
+    <h2>5. 가족끼리 보이는 범위</h2>
+    <ul>
+      <li>공유 계좌와 그 안의 내역은 같은 장부의 가족에게 보여요. 누가 적었는지도 보여요.</li>
+      <li>「나만 보기」 계좌와 그 안의 내역은 본인만 봐요.</li>
+      <li>예산과 달력 메모는 가족 모두에게 보여요.</li>
+      <li>초대 링크·코드로 들어온 사람만 가족이에요. 가족 밖의 사람에게는 보이지 않아요.</li>
+    </ul>
+  </section>
+
+  <section id="safe">
+    <h2>6. 안전 조치</h2>
+    <ul>
+      <li>서버와 주고받는 모든 정보는 HTTPS로 암호화돼요.</li>
+      <li>서버의 모든 표에 접근 규칙을 걸어, 내 정보는 나와 내 가족만 읽을 수 있어요.</li>
+      <li>폰 앱 안의 사본은 암호화돼요(열쇠는 기기 보안 저장소). 안드로이드 앱 화면은 캡처되지 않게 막고, 지문·얼굴로 앱을 잠글 수 있어요(기본은 꺼짐).</li>
+      <li>웹은 브라우저 저장이 암호화되지 않아요. 개인 PC에서 쓰고, 다 쓰면 로그아웃해 주세요.</li>
+      <li>서버 백업 파일은 암호로 잠가 보관해요. 비밀 키는 앱에 들어 있지 않아요.</li>
+    </ul>
+  </section>
+
+  <section id="ads">
+    <h2>7. 광고 · 추적</h2>
+    <ul>
+      <li>지금은 바깥 광고 모듈이나 분석·추적 도구를 쓰지 않아요. 이 페이지에도 쿠키와 바깥 요청이 없어요.</li>
+      <li>「광고 요금제」를 고르면 통계·지갑 화면에 우리 앱의 기능을 소개하는 작은 띠 하나가 보여요. 지출 내용으로 광고를 고르지 않아요.</li>
+      <li>나중에 바깥 광고를 붙이게 되면, 붙이기 전에 이 방침을 먼저 고치고 알려요.</li>
+    </ul>
+  </section>
+
+  <section id="kids">
+    <h2>8. 아동</h2>
+    <p>이 앱은 만 16세 이상을 대상으로 해요. 만 14세 미만 아동을 대상으로 하지 않아요(구글 정책의 13세 미만도 포함). 만 14세 미만 아동의 정보를 일부러 모으지 않고, 알게 되면 지워요.</p>
+  </section>
+
+  <section id="contact">
+    <h2>9. 문의</h2>
+    <p>앱 설정 › 문의하기에 글을 남겨 주세요. 열람·고침·지우기·처리 정지 요청도 같은 곳에서 받아요. 개인정보 보호책임자 함승우 · <a href="mailto:hsw0805@gmail.com">hsw0805@gmail.com</a>.</p>
+  </section>
+
+  <section id="change">
+    <h2>10. 바뀌면 알리는 방법</h2>
+    <p>방침이 바뀌면 시행일 7일 전까지 이 페이지 맨 위에 바뀌는 내용과 날짜를 적고, 앱에서도 알려요. 정보를 쓰는 방식이 크게 바뀌면 시행 전에 앱 홈의 공지 띠로 따로 알려요.</p>
+  </section>
+
+  <div class="btns"><a class="btn primary" href="index.html">소개 페이지로</a></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>오순 가계부</strong> · 오순도순 함께 쓰는 가계부 · 시행일 2026-11-01(안)</p>
+  </div>
+</footer>
+
+</body>
+</html>
